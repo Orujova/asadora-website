@@ -1,0 +1,1066 @@
+<title>ASADORA</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" />
+
+<style>
+  :root {
+    /* Light theme — airy blush daylight candle shop */
+    --ground: #F4ECE3;
+    --ground-2: #EDE2D6;
+    --surface: #FBF6EF;
+    --ink: #2A1620;
+    --ink-soft: #5A3F4C;
+    --muted: #8C7480;
+    --line: rgba(42, 22, 32, 0.14);
+    --line-soft: rgba(42, 22, 32, 0.08);
+    --ember: #C77A2E;
+    --ember-glow: #E9A85C;
+    --plum: #8A4A6C;
+    --gold: #A8823E;
+    --shadow: 0 30px 70px -40px rgba(42, 22, 32, 0.45);
+    --flame-veil: rgba(233, 168, 92, 0.16);
+  }
+
+  :root:not([data-theme="light"]) {
+    @media (prefers-color-scheme: dark) {
+      --ground: #170D13;
+      --ground-2: #1E1019;
+      --surface: #241522;
+      --ink: #F3E9DE;
+      --ink-soft: #D8C4B7;
+      --muted: #A98F9C;
+      --line: rgba(243, 233, 222, 0.16);
+      --line-soft: rgba(243, 233, 222, 0.07);
+      --ember: #E9A85C;
+      --ember-glow: #F2C078;
+      --plum: #B06E90;
+      --gold: #C9A96A;
+      --shadow: 0 40px 90px -50px rgba(0, 0, 0, 0.8);
+      --flame-veil: rgba(233, 168, 92, 0.10);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --ground: #170D13;
+    --ground-2: #1E1019;
+    --surface: #241522;
+    --ink: #F3E9DE;
+    --ink-soft: #D8C4B7;
+    --muted: #A98F9C;
+    --line: rgba(243, 233, 222, 0.16);
+    --line-soft: rgba(243, 233, 222, 0.07);
+    --ember: #E9A85C;
+    --ember-glow: #F2C078;
+    --plum: #B06E90;
+    --gold: #C9A96A;
+    --shadow: 0 40px 90px -50px rgba(0, 0, 0, 0.8);
+    --flame-veil: rgba(233, 168, 92, 0.10);
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
+
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: "Jost", "Segoe UI", sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    letter-spacing: 0.01em;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    transition: background 0.6s ease, color 0.6s ease;
+  }
+
+  h1, h2, h3, .serif {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-weight: 300;
+    line-height: 1.1;
+    text-wrap: balance;
+    margin: 0;
+  }
+
+  p { margin: 0; }
+  a { color: inherit; text-decoration: none; }
+  img { max-width: 100%; display: block; }
+
+  .wrap {
+    width: min(1180px, 90vw);
+    margin-inline: auto;
+  }
+
+  .eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  /* ---------- Wordmark ---------- */
+  .wordmark {
+    display: inline-flex;
+    align-items: center;
+    font-family: "Cormorant Garamond", serif;
+    font-weight: 400;
+    letter-spacing: 0.34em;
+    text-indent: 0.34em;
+    color: var(--ink);
+    line-height: 1;
+    user-select: none;
+  }
+  .wordmark svg { display: block; }
+  .wordmark .flame-o { margin: 0 0.16em; }
+
+  /* ---------- Nav ---------- */
+  header.nav {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.1rem clamp(1.2rem, 5vw, 3.5rem);
+    background: color-mix(in srgb, var(--ground) 72%, transparent);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid transparent;
+    transition: padding 0.4s ease, background 0.4s ease, border-color 0.4s ease;
+  }
+  header.nav.scrolled {
+    padding-block: 0.7rem;
+    border-color: var(--line-soft);
+  }
+  header.nav .wordmark { font-size: 1.35rem; }
+
+  nav.links {
+    display: flex;
+    gap: clamp(1rem, 2.4vw, 2.4rem);
+    align-items: center;
+    font-size: 0.8rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+  nav.links a { position: relative; padding-block: 0.3rem; color: var(--ink-soft); transition: color 0.3s; }
+  nav.links a::after {
+    content: "";
+    position: absolute;
+    left: 0; bottom: 0;
+    width: 0; height: 1px;
+    background: var(--ember);
+    transition: width 0.35s ease;
+  }
+  nav.links a:hover { color: var(--ink); }
+  nav.links a:hover::after { width: 100%; }
+
+  .nav-tools { display: flex; align-items: center; gap: 0.9rem; }
+
+  .lang {
+    display: flex;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    overflow: hidden;
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+  }
+  .lang button {
+    appearance: none;
+    background: none;
+    border: 0;
+    color: var(--muted);
+    padding: 0.35rem 0.6rem;
+    cursor: pointer;
+    font-family: inherit;
+    letter-spacing: inherit;
+    transition: color 0.3s, background 0.3s;
+  }
+  .lang button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+
+  .icon-btn {
+    appearance: none;
+    background: none;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    width: 34px; height: 34px;
+    display: grid; place-items: center;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: border-color 0.3s, color 0.3s, transform 0.3s;
+  }
+  .icon-btn:hover { color: var(--ember); border-color: var(--ember); transform: rotate(15deg); }
+
+  .menu-toggle { display: none; }
+
+  :focus-visible { outline: 2px solid var(--ember); outline-offset: 3px; border-radius: 2px; }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    padding: 8rem 1.2rem 4rem;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  #embers {
+    position: absolute; inset: 0;
+    z-index: -2;
+    width: 100%; height: 100%;
+  }
+  .hero-glow {
+    position: absolute;
+    left: 50%; top: 46%;
+    width: min(120vw, 1100px); aspect-ratio: 1;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle,
+      var(--flame-veil) 0%,
+      color-mix(in srgb, var(--ember) 8%, transparent) 26%,
+      transparent 62%);
+    z-index: -1;
+    pointer-events: none;
+    animation: breathe 7s ease-in-out infinite;
+  }
+  @keyframes breathe {
+    0%, 100% { opacity: 0.85; transform: translate(-50%, -50%) scale(1); }
+    50% { opacity: 1; transform: translate(-50%, -50%) scale(1.06); }
+  }
+
+  .hero-inner { max-width: 900px; }
+  .hero .wordmark {
+    font-size: clamp(2.6rem, 11vw, 7.5rem);
+    letter-spacing: 0.28em;
+    text-indent: 0.28em;
+    justify-content: center;
+  }
+  .hero-tag {
+    font-family: "Cormorant Garamond", serif;
+    font-style: italic;
+    font-size: clamp(1.1rem, 2.6vw, 1.7rem);
+    color: var(--ink-soft);
+    margin-top: 1.4rem;
+  }
+  .hero-sub {
+    max-width: 34ch;
+    margin: 1.6rem auto 0;
+    color: var(--muted);
+    font-size: 0.98rem;
+  }
+  .hero-cta {
+    margin-top: 2.6rem;
+    display: inline-flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: "Jost", sans-serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    padding: 0.95rem 1.9rem;
+    border-radius: 999px;
+    border: 1px solid var(--ink);
+    color: var(--ink);
+    cursor: pointer;
+    background: none;
+    transition: background 0.4s ease, color 0.4s ease, border-color 0.4s ease, transform 0.3s ease;
+  }
+  .btn:hover { transform: translateY(-2px); }
+  .btn-solid { background: var(--ink); color: var(--ground); }
+  .btn-solid:hover { background: var(--ember); border-color: var(--ember); color: #1a0f08; }
+  .btn-ghost:hover { border-color: var(--ember); color: var(--ember); }
+
+  .scroll-cue {
+    position: absolute;
+    bottom: 2rem; left: 50%;
+    transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 0.6rem;
+    color: var(--muted);
+    font-size: 0.62rem; letter-spacing: 0.3em; text-transform: uppercase;
+  }
+  .scroll-cue .line {
+    width: 1px; height: 46px;
+    background: linear-gradient(var(--muted), transparent);
+    animation: drop 2.4s ease-in-out infinite;
+  }
+  @keyframes drop {
+    0% { transform: scaleY(0); transform-origin: top; opacity: 0; }
+    40% { transform: scaleY(1); opacity: 1; }
+    100% { transform: scaleY(1); transform-origin: bottom; opacity: 0; }
+  }
+
+  /* ---------- Section framing ---------- */
+  section { position: relative; padding-block: clamp(5rem, 12vw, 9rem); }
+  .section-head { text-align: center; max-width: 60ch; margin-inline: auto; margin-bottom: clamp(2.5rem, 6vw, 4.5rem); }
+  .section-head h2 { font-size: clamp(2.2rem, 6vw, 4rem); margin-top: 0.8rem; }
+  .section-head p { color: var(--muted); margin-top: 1.1rem; }
+
+  .divider-flame {
+    display: flex; align-items: center; justify-content: center; gap: 1rem;
+    color: var(--gold);
+    margin: 0 auto 0.4rem;
+  }
+  .divider-flame span { height: 1px; width: 46px; background: currentColor; opacity: 0.5; }
+
+  /* ---------- Collection ---------- */
+  .collection { background: var(--ground-2); border-block: 1px solid var(--line-soft); }
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1.2rem, 2.5vw, 2rem);
+  }
+  .card {
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--line-soft);
+    border-radius: 4px;
+    padding: 2.4rem 1.8rem 2rem;
+    display: flex; flex-direction: column; align-items: center; text-align: center;
+    overflow: hidden;
+    transition: transform 0.5s cubic-bezier(.2,.7,.2,1), box-shadow 0.5s, border-color 0.5s;
+  }
+  .card::before {
+    content: "";
+    position: absolute; left: 50%; top: -30%;
+    width: 70%; aspect-ratio: 1; transform: translateX(-50%);
+    background: radial-gradient(circle, color-mix(in srgb, var(--ember) 22%, transparent), transparent 65%);
+    opacity: 0; transition: opacity 0.6s ease;
+    pointer-events: none;
+  }
+  .card:hover { transform: translateY(-8px); box-shadow: var(--shadow); border-color: color-mix(in srgb, var(--gold) 40%, transparent); }
+  .card:hover::before { opacity: 1; }
+  .card .num {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 0.9rem; letter-spacing: 0.4em; color: var(--gold);
+  }
+  .card .vessel { margin: 1.2rem 0 1.4rem; }
+  .card h3 { font-size: 2rem; }
+  .card .subtitle { font-size: 0.68rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--muted); margin-top: 0.5rem; }
+  .card .poem {
+    font-family: "Cormorant Garamond", serif;
+    font-style: italic;
+    font-size: 1.18rem;
+    color: var(--ink-soft);
+    margin: 1.3rem 0;
+    max-width: 26ch;
+    min-height: 4.6em;
+  }
+  .card .foot {
+    margin-top: auto;
+    width: 100%;
+    display: flex; align-items: center; justify-content: space-between;
+    padding-top: 1.3rem;
+    border-top: 1px solid var(--line-soft);
+  }
+  .card .price { font-family: "Cormorant Garamond", serif; font-size: 1.5rem; font-variant-numeric: tabular-nums; }
+  .add {
+    appearance: none; background: none; border: 1px solid var(--line);
+    border-radius: 999px; padding: 0.55rem 1.2rem;
+    font-family: "Jost"; font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--ink-soft); cursor: pointer;
+    transition: all 0.3s;
+  }
+  .add:hover { background: var(--ember); border-color: var(--ember); color: #1a0f08; }
+
+  /* ---------- Ritual / manifesto ---------- */
+  .ritual { text-align: center; }
+  .ritual .verse {
+    font-family: "Cormorant Garamond", serif;
+    font-weight: 300;
+    font-size: clamp(1.7rem, 4.6vw, 3.1rem);
+    line-height: 1.35;
+    max-width: 22ch;
+    margin: 0 auto;
+  }
+  .ritual .verse em { font-style: italic; color: var(--ember); }
+  .ritual .signoff { margin-top: 2.2rem; color: var(--muted); font-style: italic; font-family: "Cormorant Garamond", serif; font-size: 1.3rem; }
+
+  /* ---------- About / craft ---------- */
+  .about { background: var(--ground-2); border-block: 1px solid var(--line-soft); }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: clamp(2rem, 6vw, 5rem);
+    align-items: center;
+  }
+  .about-copy h2 { font-size: clamp(2rem, 5vw, 3.4rem); margin: 0.7rem 0 1.4rem; }
+  .about-copy p { color: var(--ink-soft); margin-bottom: 1.1rem; }
+  .about-copy p:last-child { color: var(--muted); }
+
+  .craft-list { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line-soft); border: 1px solid var(--line-soft); border-radius: 4px; overflow: hidden; }
+  .craft-item { background: var(--surface); padding: 1.6rem 1.4rem; }
+  .craft-item .k { font-size: 0.66rem; letter-spacing: 0.26em; text-transform: uppercase; color: var(--gold); }
+  .craft-item .v { font-family: "Cormorant Garamond", serif; font-size: 1.5rem; margin-top: 0.3rem; }
+  .craft-item .d { font-size: 0.85rem; color: var(--muted); margin-top: 0.3rem; }
+
+  /* ---------- Occasions ---------- */
+  .occasions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1px;
+    background: var(--line-soft);
+    border: 1px solid var(--line-soft);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .occ {
+    background: var(--surface);
+    padding: 2rem 1.6rem;
+    display: flex; flex-direction: column; gap: 0.7rem;
+    transition: background 0.4s;
+  }
+  .occ:hover { background: var(--ground-2); }
+  .occ .oi { color: var(--ember); }
+  .occ h3 { font-size: 1.5rem; }
+  .occ p { font-size: 0.86rem; color: var(--muted); }
+
+  .events-note {
+    margin-top: 2.4rem;
+    text-align: center;
+    font-family: "Cormorant Garamond", serif;
+    font-style: italic;
+    font-size: 1.25rem;
+    color: var(--ink-soft);
+  }
+
+  /* ---------- Contact ---------- */
+  .contact { background: var(--ground-2); border-top: 1px solid var(--line-soft); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 6vw, 5rem); }
+  .contact-info h2 { font-size: clamp(2rem, 5vw, 3.4rem); margin: 0.7rem 0 1.2rem; }
+  .contact-info p { color: var(--muted); max-width: 40ch; }
+  .contact-meta { margin-top: 2rem; display: grid; gap: 1.1rem; }
+  .contact-meta .row { display: flex; gap: 0.9rem; align-items: baseline; }
+  .contact-meta .lbl { font-size: 0.66rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--gold); min-width: 90px; }
+  .contact-meta .val { color: var(--ink); }
+  .socials { display: flex; gap: 0.8rem; margin-top: 2rem; }
+  .socials a {
+    width: 42px; height: 42px; border-radius: 999px;
+    border: 1px solid var(--line);
+    display: grid; place-items: center; color: var(--ink-soft);
+    transition: all 0.3s;
+  }
+  .socials a:hover { border-color: var(--ember); color: var(--ember); transform: translateY(-3px); }
+
+  form { display: grid; gap: 1.1rem; }
+  .field { display: grid; gap: 0.4rem; }
+  .field label { font-size: 0.66rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); }
+  .field input, .field textarea, .field select {
+    font-family: "Jost", sans-serif; font-size: 0.95rem; font-weight: 300;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    color: var(--ink);
+    padding: 0.85rem 1rem;
+    transition: border-color 0.3s;
+  }
+  .field input:focus, .field textarea:focus, .field select:focus { outline: none; border-color: var(--ember); }
+  .field textarea { resize: vertical; min-height: 110px; }
+  .form-note { font-size: 0.8rem; color: var(--muted); min-height: 1.2em; }
+  .form-note.ok { color: var(--ember); }
+
+  /* ---------- Footer ---------- */
+  footer.foot {
+    text-align: center;
+    padding: 4rem 1.2rem 2.6rem;
+    border-top: 1px solid var(--line-soft);
+  }
+  footer.foot .wordmark { font-size: 1.6rem; justify-content: center; }
+  footer.foot .tag { color: var(--muted); font-style: italic; font-family: "Cormorant Garamond", serif; margin-top: 0.8rem; }
+  footer.foot .legal { color: var(--muted); font-size: 0.72rem; letter-spacing: 0.1em; margin-top: 2rem; }
+
+  /* ---------- Reveal on scroll ---------- */
+  .reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.9s ease, transform 0.9s cubic-bezier(.2,.7,.2,1); }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .hero-glow, .scroll-cue .line { animation: none; }
+    .flame { animation: none !important; }
+  }
+
+  /* ---------- CSS candle flame ---------- */
+  .candle-scene { position: relative; display: inline-block; }
+  .flame {
+    position: absolute;
+    left: 50%; transform: translateX(-50%);
+    transform-origin: 50% 100%;
+    border-radius: 50% 50% 20% 20%;
+    background: linear-gradient(to top, #fff6d8, var(--ember-glow) 45%, #d9632a 100%);
+    box-shadow: 0 0 26px 6px var(--flame-veil);
+    animation: flicker 2.6s ease-in-out infinite alternate;
+  }
+  @keyframes flicker {
+    0% { transform: translateX(-50%) rotate(-1.5deg) scaleY(1); filter: brightness(1); }
+    50% { transform: translateX(-52%) rotate(1.5deg) scaleY(1.05); filter: brightness(1.12); }
+    100% { transform: translateX(-48%) rotate(-1deg) scaleY(0.97); filter: brightness(0.96); }
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 900px) {
+    .cards { grid-template-columns: 1fr; max-width: 460px; margin-inline: auto; }
+    .card .poem { min-height: 0; }
+    .about-grid, .contact-grid { grid-template-columns: 1fr; }
+    nav.links { display: none; }
+    .menu-toggle { display: grid; }
+    nav.links.open {
+      display: flex; flex-direction: column; align-items: flex-start;
+      position: absolute; top: 100%; left: 0; right: 0;
+      background: var(--ground); padding: 1.4rem clamp(1.2rem, 5vw, 3.5rem);
+      border-bottom: 1px solid var(--line-soft);
+      gap: 1.1rem;
+    }
+  }
+  @media (max-width: 520px) {
+    .contact-meta .lbl { min-width: 72px; }
+    header.nav .wordmark { font-size: 1.1rem; letter-spacing: 0.24em; }
+    .nav-tools .lang { display: none; }
+  }
+</style>
+
+<!-- ============ NAV ============ -->
+<header class="nav" id="nav">
+  <a href="#top" class="wordmark" aria-label="ASADORA home">
+    <span>ASAD</span>
+    <span class="flame-o" aria-hidden="true">
+      <svg width="0.62em" height="0.9em" viewBox="0 0 24 34" fill="none">
+        <path d="M12 1 C13.6 5 17 6.5 15.2 11.2 C14.4 13.3 12.6 13.6 12 15 C11.4 13.6 9.6 13.3 8.8 11.2 C7 6.5 10.4 5 12 1 Z" fill="currentColor"/>
+        <circle cx="12" cy="24" r="8.4" stroke="currentColor" stroke-width="1.5" fill="none"/>
+      </svg>
+    </span>
+    <span>RA</span>
+  </a>
+
+  <nav class="links" id="navlinks">
+    <a href="#collection" data-i18n="nav_collection">Collection</a>
+    <a href="#ritual" data-i18n="nav_ritual">Ritual</a>
+    <a href="#about" data-i18n="nav_about">About</a>
+    <a href="#orders" data-i18n="nav_orders">Special Orders</a>
+    <a href="#contact" data-i18n="nav_contact">Contact</a>
+  </nav>
+
+  <div class="nav-tools">
+    <div class="lang" role="group" aria-label="Language">
+      <button data-lang="az" aria-pressed="false">AZ</button>
+      <button data-lang="ru" aria-pressed="false">RU</button>
+      <button data-lang="en" aria-pressed="true">EN</button>
+    </div>
+    <button class="icon-btn" id="themeBtn" aria-label="Toggle theme" title="Theme">
+      <svg id="themeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <button class="icon-btn menu-toggle" id="menuBtn" aria-label="Menu" aria-expanded="false">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<main id="top">
+  <section class="hero">
+    <canvas id="embers" aria-hidden="true"></canvas>
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="hero-inner">
+      <div class="eyebrow reveal" data-i18n="hero_eyebrow">Hand-poured in Baku · 2026</div>
+      <div style="height:1.4rem"></div>
+      <h1 class="wordmark reveal" style="transition-delay:.1s" aria-label="ASADORA">
+        <span>ASAD</span>
+        <span class="flame-o" aria-hidden="true">
+          <svg width="0.62em" height="0.9em" viewBox="0 0 24 34" fill="none">
+            <path d="M12 1 C13.6 5 17 6.5 15.2 11.2 C14.4 13.3 12.6 13.6 12 15 C11.4 13.6 9.6 13.3 8.8 11.2 C7 6.5 10.4 5 12 1 Z" fill="currentColor"/>
+            <circle cx="12" cy="24" r="8.4" stroke="currentColor" stroke-width="1.5" fill="none"/>
+          </svg>
+        </span>
+        <span>RA</span>
+      </h1>
+      <p class="hero-tag reveal" style="transition-delay:.2s" data-i18n="hero_tag">Some moments are measured in seconds, yet remembered for a lifetime.</p>
+      <p class="hero-sub reveal" style="transition-delay:.3s" data-i18n="hero_sub">Sculptural candles poured by hand to hold the moments worth staying inside a little longer.</p>
+      <div class="hero-cta reveal" style="transition-delay:.4s">
+        <a href="#collection" class="btn btn-solid" data-i18n="hero_cta1">Discover the Collection</a>
+        <a href="#orders" class="btn btn-ghost" data-i18n="hero_cta2">Special Orders</a>
+      </div>
+    </div>
+    <div class="scroll-cue" aria-hidden="true">
+      <span data-i18n="scroll">Scroll</span>
+      <span class="line"></span>
+    </div>
+  </section>
+
+  <!-- ============ COLLECTION ============ -->
+  <section class="collection" id="collection">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="divider-flame"><span></span>🕯<span></span></div>
+        <div class="eyebrow" data-i18n="col_eyebrow">Collection I</div>
+        <h2 data-i18n="col_title">Three moments, cast in wax</h2>
+        <p data-i18n="col_sub">Each candle marks a feeling worth returning to. Light it, and the moment stays.</p>
+      </div>
+
+      <div class="cards">
+        <!-- 01 -->
+        <article class="card reveal">
+          <div class="num">01</div>
+          <div class="vessel" aria-hidden="true">
+            <div class="candle-scene">
+              <svg width="86" height="118" viewBox="0 0 86 118">
+                <defs><linearGradient id="wax1" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#f4e3d0"/><stop offset="1" stop-color="#e7c9a8"/></linearGradient></defs>
+                <ellipse cx="43" cy="112" rx="30" ry="5" fill="rgba(0,0,0,.14)"/>
+                <rect x="16" y="40" width="54" height="72" rx="6" fill="url(#wax1)" stroke="rgba(0,0,0,.08)"/>
+                <rect x="16" y="40" width="54" height="16" rx="6" fill="rgba(255,255,255,.35)"/>
+                <rect x="41.2" y="24" width="3.6" height="18" rx="1.5" fill="#4a3524"/>
+              </svg>
+              <div class="flame" style="width:12px;height:26px;top:2px;"></div>
+            </div>
+          </div>
+          <h3 data-i18n="c1_name">Stay Awhile</h3>
+          <div class="subtitle" data-i18n="c1_sub">Presence · Amber & Fig</div>
+          <p class="poem" data-i18n="c1_poem">Light this candle when you wish this moment could last a little longer.</p>
+          <div class="foot">
+            <span class="price">45 ₼</span>
+            <button class="add" data-i18n="add">Add to order</button>
+          </div>
+        </article>
+
+        <!-- 02 -->
+        <article class="card reveal" style="transition-delay:.12s">
+          <div class="num">02</div>
+          <div class="vessel" aria-hidden="true">
+            <div class="candle-scene">
+              <svg width="86" height="118" viewBox="0 0 86 118">
+                <defs><linearGradient id="wax2" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#e9d3de"/><stop offset="1" stop-color="#c99bb4"/></linearGradient></defs>
+                <ellipse cx="43" cy="112" rx="30" ry="5" fill="rgba(0,0,0,.14)"/>
+                <rect x="18" y="46" width="50" height="66" rx="25" fill="url(#wax2)" stroke="rgba(0,0,0,.08)"/>
+                <ellipse cx="43" cy="48" rx="25" ry="6" fill="rgba(255,255,255,.4)"/>
+                <rect x="41.2" y="28" width="3.6" height="20" rx="1.5" fill="#4a3524"/>
+              </svg>
+              <div class="flame" style="width:12px;height:26px;top:6px;"></div>
+            </div>
+          </div>
+          <h3 data-i18n="c2_name">Light Returns</h3>
+          <div class="subtitle" data-i18n="c2_sub">Renewal · Neroli & Dawn</div>
+          <p class="poem" data-i18n="c2_poem">Light this candle when you begin to fall in love with life again.</p>
+          <div class="foot">
+            <span class="price">48 ₼</span>
+            <button class="add" data-i18n="add">Add to order</button>
+          </div>
+        </article>
+
+        <!-- 03 -->
+        <article class="card reveal" style="transition-delay:.24s">
+          <div class="num">03</div>
+          <div class="vessel" aria-hidden="true">
+            <div class="candle-scene">
+              <svg width="86" height="118" viewBox="0 0 86 118">
+                <defs><linearGradient id="wax3" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#efe0c4"/><stop offset="1" stop-color="#d8b878"/></linearGradient></defs>
+                <ellipse cx="43" cy="112" rx="30" ry="5" fill="rgba(0,0,0,.14)"/>
+                <path d="M22 58 C22 44 64 44 64 58 L61 112 L25 112 Z" fill="url(#wax3)" stroke="rgba(0,0,0,.08)"/>
+                <ellipse cx="43" cy="52" rx="21" ry="6" fill="rgba(255,255,255,.4)"/>
+                <rect x="41.2" y="32" width="3.6" height="20" rx="1.5" fill="#4a3524"/>
+              </svg>
+              <div class="flame" style="width:12px;height:26px;top:10px;"></div>
+            </div>
+          </div>
+          <h3 data-i18n="c3_name">The Yes</h3>
+          <div class="subtitle" data-i18n="c3_sub">Beginnings · Rose & Oud</div>
+          <p class="poem" data-i18n="c3_poem">Light this candle when your future begins with one simple word.</p>
+          <div class="foot">
+            <span class="price">52 ₼</span>
+            <button class="add" data-i18n="add">Add to order</button>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RITUAL ============ -->
+  <section class="ritual" id="ritual">
+    <div class="wrap reveal">
+      <div class="divider-flame"><span></span>🕯<span></span></div>
+      <div class="eyebrow" style="text-align:center;margin-bottom:1.8rem" data-i18n="ritual_eyebrow">The Ritual</div>
+      <p class="verse" data-i18n="ritual_verse">A conversation that lasts longer than expected. A sunset that makes you pause. You know this moment cannot last forever — so, before it becomes a memory, <em>stay awhile.</em></p>
+      <p class="signoff" data-i18n="ritual_signoff">— and just like that, a new chapter begins.</p>
+    </div>
+  </section>
+
+  <!-- ============ ABOUT / CRAFT ============ -->
+  <section class="about" id="about">
+    <div class="wrap about-grid">
+      <div class="about-copy reveal">
+        <div class="eyebrow" data-i18n="about_eyebrow">Our Craft</div>
+        <h2 data-i18n="about_title">Slow-made, in small batches</h2>
+        <p data-i18n="about_p1">ASADORA candles are poured by hand in Baku, in batches small enough to watch over every wick. We choose natural waxes and clean fragrance so the light burns soft, even, and true.</p>
+        <p data-i18n="about_p2">Sculptural forms, considered scent, and packaging made to be kept — an object that stays long after the flame is gone.</p>
+      </div>
+      <div class="craft-list reveal" style="transition-delay:.15s">
+        <div class="craft-item"><div class="k" data-i18n="craft_wax_k">Wax</div><div class="v" data-i18n="craft_wax_v">Soy · Beeswax · Coconut</div><div class="d" data-i18n="craft_wax_d">Natural, clean-burning blends.</div></div>
+        <div class="craft-item"><div class="k" data-i18n="craft_wick_k">Wick</div><div class="v" data-i18n="craft_wick_v">Cotton & Wood</div><div class="d" data-i18n="craft_wick_d">A quiet, steady flame.</div></div>
+        <div class="craft-item"><div class="k" data-i18n="craft_form_k">Form</div><div class="v" data-i18n="craft_form_v">Sculptural</div><div class="d" data-i18n="craft_form_d">Each piece hand-shaped.</div></div>
+        <div class="craft-item"><div class="k" data-i18n="craft_made_k">Made</div><div class="v" data-i18n="craft_made_v">In Baku</div><div class="d" data-i18n="craft_made_d">Small-batch, by hand.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SPECIAL ORDERS / EVENTS ============ -->
+  <section id="orders">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="divider-flame"><span></span>🕯<span></span></div>
+        <div class="eyebrow" data-i18n="occ_eyebrow">Special Orders & Events</div>
+        <h2 data-i18n="occ_title">Light for every occasion</h2>
+        <p data-i18n="occ_sub">Custom scents, colors, and labels for the moments that deserve their own glow.</p>
+      </div>
+      <div class="occasions-grid reveal">
+        <div class="occ"><div class="oi">✦</div><h3 data-i18n="occ_wed">Weddings</h3><p data-i18n="occ_wed_d">Favors & aisle light, in your palette.</p></div>
+        <div class="occ"><div class="oi">✦</div><h3 data-i18n="occ_eng">Proposals & Xınayaxdı</h3><p data-i18n="occ_eng_d">For the yes, and the night before.</p></div>
+        <div class="occ"><div class="oi">✦</div><h3 data-i18n="occ_corp">Corporate Gifts</h3><p data-i18n="occ_corp_d">Branded, boxed, delivered.</p></div>
+        <div class="occ"><div class="oi">✦</div><h3 data-i18n="occ_show">Bridal & Baby Showers</h3><p data-i18n="occ_show_d">Keepsakes guests will keep.</p></div>
+        <div class="occ"><div class="oi">✦</div><h3 data-i18n="occ_home">Housewarming</h3><p data-i18n="occ_home_d">A warm welcome, literally.</p></div>
+        <div class="occ"><div class="oi">✦</div><h3 data-i18n="occ_bday">Birthdays</h3><p data-i18n="occ_bday_d">A candle worth making a wish on.</p></div>
+        <div class="occ"><div class="oi">✦</div><h3 data-i18n="occ_class">Masterclasses</h3><p data-i18n="occ_class_d">Pour your own, with us.</p></div>
+        <div class="occ"><div class="oi">✦</div><h3 data-i18n="occ_exh">Exhibitions</h3><p data-i18n="occ_exh_d">Seasonal launches & pop-ups.</p></div>
+      </div>
+      <p class="events-note reveal" data-i18n="occ_note">Tell us the moment — we will make the light for it.</p>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section class="contact" id="contact">
+    <div class="wrap contact-grid">
+      <div class="contact-info reveal">
+        <div class="eyebrow" data-i18n="contact_eyebrow">Contact</div>
+        <h2 data-i18n="contact_title">Let's talk light</h2>
+        <p data-i18n="contact_sub">Questions, custom orders, or wholesale — write to us and we'll reply within two days.</p>
+        <div class="contact-meta">
+          <div class="row"><span class="lbl" data-i18n="contact_loc">Studio</span><span class="val">Baku, Azerbaijan</span></div>
+          <div class="row"><span class="lbl" data-i18n="contact_email">Email</span><span class="val">hello@asadora.az</span></div>
+          <div class="row"><span class="lbl" data-i18n="contact_lang">Languages</span><span class="val">Azərbaycan · Русский · English</span></div>
+        </div>
+        <div class="socials">
+          <a href="#" aria-label="Instagram" title="Instagram">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="#" aria-label="TikTok" title="TikTok">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16.5 3c.3 2.2 1.6 3.7 3.8 3.9v2.6c-1.3.1-2.5-.3-3.8-1v5.9c0 3.4-2.6 5.6-5.7 5.1-2.6-.4-4.3-2.6-4-5.2.3-2.4 2.4-4.2 4.9-4v2.8c-.4-.1-.8-.2-1.2-.1-1 .1-1.8 1-1.7 2 .1 1.1 1 1.9 2.1 1.7 1-.1 1.7-1 1.7-2.1V3h3.9Z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <form class="reveal" id="contactForm" style="transition-delay:.15s" novalidate>
+        <div class="field">
+          <label for="cf-name" data-i18n="f_name">Name</label>
+          <input id="cf-name" name="name" type="text" autocomplete="name" required />
+        </div>
+        <div class="field">
+          <label for="cf-int" data-i18n="f_interest">I'm interested in</label>
+          <select id="cf-int" name="interest">
+            <option data-i18n="f_opt1">The Collection</option>
+            <option data-i18n="f_opt2">A special order</option>
+            <option data-i18n="f_opt3">Events & workshops</option>
+            <option data-i18n="f_opt4">Wholesale</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="cf-msg" data-i18n="f_msg">Your message</label>
+          <textarea id="cf-msg" name="message" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-solid" data-i18n="f_send">Send message</button>
+        <p class="form-note" id="formNote" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="foot">
+  <div class="wordmark" aria-label="ASADORA">
+    <span>ASAD</span>
+    <span class="flame-o" aria-hidden="true">
+      <svg width="0.62em" height="0.9em" viewBox="0 0 24 34" fill="none">
+        <path d="M12 1 C13.6 5 17 6.5 15.2 11.2 C14.4 13.3 12.6 13.6 12 15 C11.4 13.6 9.6 13.3 8.8 11.2 C7 6.5 10.4 5 12 1 Z" fill="currentColor"/>
+        <circle cx="12" cy="24" r="8.4" stroke="currentColor" stroke-width="1.5" fill="none"/>
+      </svg>
+    </span>
+    <span>RA</span>
+  </div>
+  <p class="tag" data-i18n="foot_tag">Stay awhile.</p>
+  <p class="legal">© 2026 ASADORA · Baku, Azerbaijan</p>
+</footer>
+
+<script>
+  /* ---------- i18n ---------- */
+  const I18N = {
+    en: {
+      nav_collection:"Collection", nav_ritual:"Ritual", nav_about:"About", nav_orders:"Special Orders", nav_contact:"Contact",
+      hero_eyebrow:"Hand-poured in Baku · 2026",
+      hero_tag:"Some moments are measured in seconds, yet remembered for a lifetime.",
+      hero_sub:"Sculptural candles poured by hand to hold the moments worth staying inside a little longer.",
+      hero_cta1:"Discover the Collection", hero_cta2:"Special Orders", scroll:"Scroll",
+      col_eyebrow:"Collection I", col_title:"Three moments, cast in wax",
+      col_sub:"Each candle marks a feeling worth returning to. Light it, and the moment stays.",
+      c1_name:"Stay Awhile", c1_sub:"Presence · Amber & Fig", c1_poem:"Light this candle when you wish this moment could last a little longer.",
+      c2_name:"Light Returns", c2_sub:"Renewal · Neroli & Dawn", c2_poem:"Light this candle when you begin to fall in love with life again.",
+      c3_name:"The Yes", c3_sub:"Beginnings · Rose & Oud", c3_poem:"Light this candle when your future begins with one simple word.",
+      add:"Add to order",
+      ritual_eyebrow:"The Ritual",
+      ritual_verse:"A conversation that lasts longer than expected. A sunset that makes you pause. You know this moment cannot last forever — so, before it becomes a memory, <em>stay awhile.</em>",
+      ritual_signoff:"— and just like that, a new chapter begins.",
+      about_eyebrow:"Our Craft", about_title:"Slow-made, in small batches",
+      about_p1:"ASADORA candles are poured by hand in Baku, in batches small enough to watch over every wick. We choose natural waxes and clean fragrance so the light burns soft, even, and true.",
+      about_p2:"Sculptural forms, considered scent, and packaging made to be kept — an object that stays long after the flame is gone.",
+      craft_wax_k:"Wax", craft_wax_v:"Soy · Beeswax · Coconut", craft_wax_d:"Natural, clean-burning blends.",
+      craft_wick_k:"Wick", craft_wick_v:"Cotton & Wood", craft_wick_d:"A quiet, steady flame.",
+      craft_form_k:"Form", craft_form_v:"Sculptural", craft_form_d:"Each piece hand-shaped.",
+      craft_made_k:"Made", craft_made_v:"In Baku", craft_made_d:"Small-batch, by hand.",
+      occ_eyebrow:"Special Orders & Events", occ_title:"Light for every occasion",
+      occ_sub:"Custom scents, colors, and labels for the moments that deserve their own glow.",
+      occ_wed:"Weddings", occ_wed_d:"Favors & aisle light, in your palette.",
+      occ_eng:"Proposals & Xınayaxdı", occ_eng_d:"For the yes, and the night before.",
+      occ_corp:"Corporate Gifts", occ_corp_d:"Branded, boxed, delivered.",
+      occ_show:"Bridal & Baby Showers", occ_show_d:"Keepsakes guests will keep.",
+      occ_home:"Housewarming", occ_home_d:"A warm welcome, literally.",
+      occ_bday:"Birthdays", occ_bday_d:"A candle worth making a wish on.",
+      occ_class:"Masterclasses", occ_class_d:"Pour your own, with us.",
+      occ_exh:"Exhibitions", occ_exh_d:"Seasonal launches & pop-ups.",
+      occ_note:"Tell us the moment — we will make the light for it.",
+      contact_eyebrow:"Contact", contact_title:"Let's talk light",
+      contact_sub:"Questions, custom orders, or wholesale — write to us and we'll reply within two days.",
+      contact_loc:"Studio", contact_email:"Email", contact_lang:"Languages",
+      f_name:"Name", f_interest:"I'm interested in", f_msg:"Your message", f_send:"Send message",
+      f_opt1:"The Collection", f_opt2:"A special order", f_opt3:"Events & workshops", f_opt4:"Wholesale",
+      foot_tag:"Stay awhile.",
+      note_ok:"Thank you — we'll be in touch soon.", note_err:"Please add your name and a short message."
+    },
+    az: {
+      nav_collection:"Kolleksiya", nav_ritual:"Ritual", nav_about:"Haqqımızda", nav_orders:"Xüsusi Sifariş", nav_contact:"Əlaqə",
+      hero_eyebrow:"Bakıda əllə tökülür · 2026",
+      hero_tag:"Bəzi anlar saniyələrlə ölçülür, amma bir ömür boyu xatırlanır.",
+      hero_sub:"Bir az daha qalmağa dəyən anları saxlamaq üçün əllə tökülmüş heykəl formalı şamlar.",
+      hero_cta1:"Kolleksiyanı kəşf et", hero_cta2:"Xüsusi Sifariş", scroll:"Aşağı",
+      col_eyebrow:"Kolleksiya I", col_title:"Üç an, mumda həkk olunub",
+      col_sub:"Hər şam qayıtmağa dəyən bir hissi işarələyir. Yandır — və an qalır.",
+      c1_name:"Stay Awhile", c1_sub:"Hüzur · Kəhrəba və Əncir", c1_poem:"Bu anın bir az daha uzanmasını istədiyin zaman bu şamı yandır.",
+      c2_name:"Light Returns", c2_sub:"Yenilənmə · Neroli və Şəfəq", c2_poem:"Yenidən həyata vurulmağa başladığın zaman bu şamı yandır.",
+      c3_name:"The Yes", c3_sub:"Başlanğıc · Qızılgül və Oud", c3_poem:"Gələcəyin sadəcə bir sözlə başlayanda bu şamı yandır.",
+      add:"Sifarişə əlavə et",
+      ritual_eyebrow:"Ritual",
+      ritual_verse:"Gözlədiyindən uzun sürən söhbət. Səni dayandıran gün batımı. Bilirsən ki, bu an əbədi qala bilməz — buna görə, xatirəyə çevrilməmişdən əvvəl, <em>bir az qal.</em>",
+      ritual_signoff:"— və elə bu anda yeni bir fəsil başlayır.",
+      about_eyebrow:"Sənətkarlığımız", about_title:"Yavaş, kiçik partiyalarla hazırlanır",
+      about_p1:"ASADORA şamları Bakıda əllə tökülür — hər fitilə göz yetirəcək qədər kiçik partiyalarda. Təbii mumlar və təmiz ətir seçirik ki, işıq yumşaq, bərabər və saf yansın.",
+      about_p2:"Heykəl formaları, incə seçilmiş ətir və saxlanmaq üçün hazırlanmış qablaşdırma — alov sönəndən sonra da qalan bir əşya.",
+      craft_wax_k:"Mum", craft_wax_v:"Soya · Arı mumu · Kokos", craft_wax_d:"Təbii, təmiz yanan qarışıqlar.",
+      craft_wick_k:"Fitil", craft_wick_v:"Pambıq və Taxta", craft_wick_d:"Sakit, sabit alov.",
+      craft_form_k:"Forma", craft_form_v:"Heykəl", craft_form_d:"Hər parça əllə formalanır.",
+      craft_made_k:"Hazırlanıb", craft_made_v:"Bakıda", craft_made_d:"Kiçik partiya, əllə.",
+      occ_eyebrow:"Xüsusi Sifariş və Tədbirlər", occ_title:"Hər an üçün işıq",
+      occ_sub:"Öz parıltısına layiq anlar üçün fərdi ətir, rəng və etiketlər.",
+      occ_wed:"Toylar", occ_wed_d:"Xatirə hədiyyələri və işıq, sizin rənglərdə.",
+      occ_eng:"Elçilik və Xınayaxdı", occ_eng_d:"O “hə” üçün və ondan əvvəlki gecə üçün.",
+      occ_corp:"Korporativ Hədiyyələr", occ_corp_d:"Brendli, qutulanmış, çatdırılır.",
+      occ_show:"Gəlin və Baby Shower", occ_show_d:"Qonaqların saxlayacağı xatirələr.",
+      occ_home:"Ev İsitməsi", occ_home_d:"İsti bir qarşılama — hərfi mənada.",
+      occ_bday:"Ad günləri", occ_bday_d:"Arzu tutmağa dəyən şam.",
+      occ_class:"Master-klaslar", occ_class_d:"Bizimlə öz şamını tök.",
+      occ_exh:"Sərgilər", occ_exh_d:"Mövsümi təqdimatlar və pop-up-lar.",
+      occ_note:"Anı bizə deyin — işığı biz hazırlayaq.",
+      contact_eyebrow:"Əlaqə", contact_title:"İşıqdan danışaq",
+      contact_sub:"Suallar, fərdi sifarişlər və ya topdansatış — bizə yazın, iki gün ərzində cavab verək.",
+      contact_loc:"Studiya", contact_email:"E-poçt", contact_lang:"Dillər",
+      f_name:"Ad", f_interest:"Maraqlandığım", f_msg:"Mesajınız", f_send:"Mesaj göndər",
+      f_opt1:"Kolleksiya", f_opt2:"Xüsusi sifariş", f_opt3:"Tədbirlər və master-klaslar", f_opt4:"Topdansatış",
+      foot_tag:"Bir az qal.",
+      note_ok:"Təşəkkür edirik — tezliklə sizinlə əlaqə saxlayacağıq.", note_err:"Zəhmət olmasa adınızı və qısa mesaj əlavə edin."
+    },
+    ru: {
+      nav_collection:"Коллекция", nav_ritual:"Ритуал", nav_about:"О нас", nav_orders:"Спецзаказы", nav_contact:"Контакты",
+      hero_eyebrow:"Ручная заливка в Баку · 2026",
+      hero_tag:"Некоторые мгновения измеряются секундами, но остаются в памяти на всю жизнь.",
+      hero_sub:"Скульптурные свечи ручной работы, чтобы сохранить моменты, в которых хочется побыть чуть дольше.",
+      hero_cta1:"Открыть коллекцию", hero_cta2:"Спецзаказы", scroll:"Вниз",
+      col_eyebrow:"Коллекция I", col_title:"Три мгновения, отлитые в воске",
+      col_sub:"Каждая свеча — о чувстве, к которому хочется вернуться. Зажгите — и мгновение останется.",
+      c1_name:"Stay Awhile", c1_sub:"Присутствие · Амбра и Инжир", c1_poem:"Зажгите эту свечу, когда захотите, чтобы этот момент длился чуть дольше.",
+      c2_name:"Light Returns", c2_sub:"Обновление · Нероли и Рассвет", c2_poem:"Зажгите эту свечу, когда снова начнёте влюбляться в жизнь.",
+      c3_name:"The Yes", c3_sub:"Начало · Роза и Уд", c3_poem:"Зажгите эту свечу, когда ваше будущее начнётся с одного простого слова.",
+      add:"В заказ",
+      ritual_eyebrow:"Ритуал",
+      ritual_verse:"Разговор, что длится дольше ожидаемого. Закат, что заставляет замереть. Вы знаете, что этот момент не вечен — поэтому, прежде чем он станет воспоминанием, <em>побудьте ещё.</em>",
+      ritual_signoff:"— и вот так начинается новая глава.",
+      about_eyebrow:"Наше ремесло", about_title:"Неспешно, малыми партиями",
+      about_p1:"Свечи ASADORA заливаются вручную в Баку, партиями настолько малыми, чтобы уследить за каждым фитилём. Мы выбираем натуральный воск и чистые ароматы, чтобы свет горел мягко, ровно и честно.",
+      about_p2:"Скульптурные формы, продуманный аромат и упаковка, которую хочется сохранить — предмет, что остаётся, когда пламя уже погасло.",
+      craft_wax_k:"Воск", craft_wax_v:"Соя · Пчелиный · Кокос", craft_wax_d:"Натуральные, чисто горящие смеси.",
+      craft_wick_k:"Фитиль", craft_wick_v:"Хлопок и Дерево", craft_wick_d:"Тихое, ровное пламя.",
+      craft_form_k:"Форма", craft_form_v:"Скульптурная", craft_form_d:"Каждая — вручную.",
+      craft_made_k:"Сделано", craft_made_v:"В Баку", craft_made_d:"Малыми партиями, вручную.",
+      occ_eyebrow:"Спецзаказы и События", occ_title:"Свет для каждого события",
+      occ_sub:"Индивидуальные ароматы, цвета и этикетки для моментов, достойных своего света.",
+      occ_wed:"Свадьбы", occ_wed_d:"Бонбоньерки и свет — в ваших тонах.",
+      occ_eng:"Помолвки и Хынаяхды", occ_eng_d:"Для «да» и для вечера накануне.",
+      occ_corp:"Корпоративные подарки", occ_corp_d:"С логотипом, в коробке, с доставкой.",
+      occ_show:"Bridal и Baby Shower", occ_show_d:"Сувениры, что гости сохранят.",
+      occ_home:"Новоселье", occ_home_d:"Тёплый приём — в прямом смысле.",
+      occ_bday:"Дни рождения", occ_bday_d:"Свеча, на которую стоит загадать желание.",
+      occ_class:"Мастер-классы", occ_class_d:"Залейте свою свечу вместе с нами.",
+      occ_exh:"Выставки", occ_exh_d:"Сезонные запуски и поп-апы.",
+      occ_note:"Расскажите нам о моменте — а свет мы создадим.",
+      contact_eyebrow:"Контакты", contact_title:"Поговорим о свете",
+      contact_sub:"Вопросы, индивидуальные заказы или опт — напишите нам, ответим в течение двух дней.",
+      contact_loc:"Студия", contact_email:"Эл. почта", contact_lang:"Языки",
+      f_name:"Имя", f_interest:"Мне интересно", f_msg:"Ваше сообщение", f_send:"Отправить",
+      f_opt1:"Коллекция", f_opt2:"Индивидуальный заказ", f_opt3:"События и мастер-классы", f_opt4:"Опт",
+      foot_tag:"Побудьте ещё.",
+      note_ok:"Спасибо — мы скоро свяжемся с вами.", note_err:"Пожалуйста, укажите имя и короткое сообщение."
+    }
+  };
+
+  const store = {
+    get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } },
+    set(k,v){ try { localStorage.setItem(k,v); } catch(e){} }
+  };
+
+  let curLang = store.get("asadora_lang") || "az";
+
+  function applyLang(lang){
+    curLang = lang;
+    const dict = I18N[lang] || I18N.en;
+    document.documentElement.lang = lang;
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+      const key = el.getAttribute("data-i18n");
+      if (dict[key] != null) el.innerHTML = dict[key];
+    });
+    document.querySelectorAll(".lang button").forEach(b => {
+      b.setAttribute("aria-pressed", b.dataset.lang === lang ? "true" : "false");
+    });
+    store.set("asadora_lang", lang);
+  }
+  document.querySelectorAll(".lang button").forEach(b => {
+    b.addEventListener("click", () => applyLang(b.dataset.lang));
+  });
+  applyLang(curLang);
+
+  /* ---------- Theme ---------- */
+  const root = document.documentElement;
+  const savedTheme = store.get("asadora_theme");
+  if (savedTheme) root.setAttribute("data-theme", savedTheme);
+  function currentIsDark(){
+    const t = root.getAttribute("data-theme");
+    if (t) return t === "dark";
+    return window.matchMedia("(prefers-color-scheme: dark)").matches;
+  }
+  const sunPath = 'M12 4V2M12 22v-2M4 12H2m20 0h-2M6 6 4.5 4.5M19.5 19.5 18 18M18 6l1.5-1.5M4.5 19.5 6 18';
+  function setThemeIcon(){
+    const icon = document.getElementById("themeIcon");
+    if (currentIsDark()){
+      icon.innerHTML = '<circle cx="12" cy="12" r="4"/><path d="'+sunPath+'" stroke-linecap="round"/>';
+    } else {
+      icon.innerHTML = '<path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z" stroke-linejoin="round"/>';
+    }
+  }
+  setThemeIcon();
+  document.getElementById("themeBtn").addEventListener("click", () => {
+    const next = currentIsDark() ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    store.set("asadora_theme", next);
+    setThemeIcon();
+  });
+
+  /* ---------- Nav scroll + mobile menu ---------- */
+  const nav = document.getElementById("nav");
+  addEventListener("scroll", () => nav.classList.toggle("scrolled", scrollY > 40), { passive:true });
+  const menuBtn = document.getElementById("menuBtn");
+  const navlinks = document.getElementById("navlinks");
+  menuBtn.addEventListener("click", () => {
+    const open = navlinks.classList.toggle("open");
+    menuBtn.setAttribute("aria-expanded", open);
+  });
+  navlinks.querySelectorAll("a").forEach(a => a.addEventListener("click", () => {
+    navlinks.classList.remove("open"); menuBtn.setAttribute("aria-expanded","false");
+  }));
+
+  /* ---------- Reveal on scroll ---------- */
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } });
+  }, { threshold: 0.14 });
+  document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+
+  /* ---------- Add to order (demo) ---------- */
+  document.querySelectorAll(".add").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const original = I18N[curLang].add;
+      btn.textContent = "✓ " + (curLang === "az" ? "Əlavə olundu" : curLang === "ru" ? "Добавлено" : "Added");
+      btn.style.borderColor = "var(--ember)"; btn.style.color = "var(--ember)";
+      setTimeout(() => { btn.textContent = original; btn.style.borderColor = ""; btn.style.color = ""; }, 1600);
+    });
+  });
+
+  /* ---------- Contact form (demo, no external send) ---------- */
+  document.getElementById("contactForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const note = document.getElementById("formNote");
+    const name = document.getElementById("cf-name").value.trim();
+    const msg = document.getElementById("cf-msg").value.trim();
+    if (!name || !msg){
+      note.textContent = I18N[curLang].note_err; note.classList.remove("ok"); return;
+    }
+    note.textContent = I18N[curLang].note_ok; note.classList.add("ok");
+    e.target.reset();
+  });
+
+  /* ---------- Ember particles ---------- */
+  (function(){
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const canvas = document.getElementById("embers");
+    const ctx = canvas.getContext("2d");
+    let w, h, embers = [], raf;
+    function resize(){
+      w = canvas.width = canvas.offsetWidth * devicePixelRatio;
+      h = canvas.height = canvas.offsetHeight * devicePixelRatio;
+    }
+    function make(){
+      return {
+        x: Math.random()*w,
+        y: h + Math.random()*h*0.3,
+        r: (Math.random()*1.6+0.5)*devicePixelRatio,
+        vy: (Math.random()*0.5+0.25)*devicePixelRatio,
+        drift: (Math.random()-0.5)*0.4*devicePixelRatio,
+        life: Math.random(),
+        max: Math.random()*0.5+0.5
+      };
+    }
+    function init(){ resize(); embers = Array.from({length: Math.min(60, Math.floor(w/28))}, make); }
+    function frame(){
+      ctx.clearRect(0,0,w,h);
+      embers.forEach(p => {
+        p.y -= p.vy; p.x += p.drift + Math.sin(p.y*0.01)*0.3*devicePixelRatio;
+        p.life += 0.004;
+        const alpha = Math.max(0, (1 - p.life/p.max)) * 0.6;
+        if (p.y < -10 || p.life > p.max){ Object.assign(p, make()); p.y = h+10; }
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+        ctx.fillStyle = "rgba(233,168,92," + alpha.toFixed(3) + ")";
+        ctx.shadowColor = "rgba(233,168,92,0.8)"; ctx.shadowBlur = 8*devicePixelRatio;
+        ctx.fill();
+      });
+      raf = requestAnimationFrame(frame);
+    }
+    init(); frame();
+    addEventListener("resize", () => { cancelAnimationFrame(raf); init(); frame(); }, { passive:true });
+  })();
+</script>
