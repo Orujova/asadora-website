@@ -612,6 +612,45 @@
     .hero-cursor { display: none; }
     .intro-flame, .hero .flame-o, .divider-flame .flame-glyph { animation: none; }
     body::after { display: none; }
+    .candle-photo, .card:hover .candle-photo { transition: none; }
+  }
+
+  /* ---------- Product photos in cards ---------- */
+  .card .vessel { margin: 0 0 1.4rem; width: 100%; }
+  .candle-photo {
+    width: 100%; aspect-ratio: 1 / 1; object-fit: cover; object-position: center 46%;
+    border-radius: 5px; display: block;
+    box-shadow: inset 0 0 0 1px var(--line-soft);
+    transition: transform 0.7s cubic-bezier(.2,.7,.2,1);
+  }
+  .card:hover .candle-photo { transform: scale(1.05); }
+
+  /* ---------- Packaging section ---------- */
+  .pack-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 5vw, 4.5rem); align-items: center; }
+  .pack-photo img { width: 100%; border-radius: 6px; box-shadow: var(--shadow); }
+  .pack-copy h2 { font-size: clamp(2rem, 5vw, 3.4rem); margin: 0.7rem 0 1.4rem; }
+  .pack-copy p { color: var(--ink-soft); margin-bottom: 1.1rem; }
+  .pack-copy p:last-child { color: var(--muted); }
+  @media (max-width: 900px) { .pack-grid { grid-template-columns: 1fr; } .pack-photo { order: -1; } }
+
+  /* ---------- Ritual with atmosphere photo ---------- */
+  .ritual { color: #F3E9DE; overflow: hidden; }
+  .ritual::before {
+    content: ""; position: absolute; inset: 0; z-index: -1;
+    background: linear-gradient(rgba(23,13,19,.80), rgba(23,13,19,.88)), url("images/atmosphere.jpg") center / cover no-repeat;
+  }
+  .ritual .eyebrow { color: rgba(243,233,222,.55); }
+  .ritual .verse { color: #F3E9DE; }
+  .ritual .signoff { color: rgba(243,233,222,.72); }
+  .ritual .divider-flame { color: var(--gold); }
+
+  /* ---------- Photo band (events) ---------- */
+  .photo-band { position: relative; height: clamp(240px, 42vh, 460px); overflow: hidden; border-block: 1px solid var(--line-soft); }
+  .photo-band img { width: 100%; height: 100%; object-fit: cover; object-position: center 58%; }
+  .photo-band .cap {
+    position: absolute; inset: auto 0 0 0; padding: 2.4rem clamp(1.2rem, 5vw, 3.5rem) 1.6rem;
+    background: linear-gradient(transparent, rgba(23,13,19,.78));
+    color: #F3E9DE; font-family: "Cormorant Garamond", serif; font-style: italic; font-size: clamp(1.2rem, 2.6vw, 1.6rem);
   }
 </style>
 
@@ -707,18 +746,8 @@
         <!-- 01 -->
         <article class="card reveal">
           <div class="num">01</div>
-          <div class="vessel" aria-hidden="true">
-            <div class="candle-scene">
-              <svg width="86" height="118" viewBox="0 0 86 118">
-                <defs><linearGradient id="wax1" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0" stop-color="#f4e3d0"/><stop offset="1" stop-color="#e7c9a8"/></linearGradient></defs>
-                <ellipse cx="43" cy="112" rx="30" ry="5" fill="rgba(0,0,0,.14)"/>
-                <rect x="16" y="40" width="54" height="72" rx="6" fill="url(#wax1)" stroke="rgba(0,0,0,.08)"/>
-                <rect x="16" y="40" width="54" height="16" rx="6" fill="rgba(255,255,255,.35)"/>
-                <rect x="41.2" y="24" width="3.6" height="18" rx="1.5" fill="#4a3524"/>
-              </svg>
-              <div class="flame" style="width:12px;height:26px;top:2px;"></div>
-            </div>
+          <div class="vessel">
+            <img class="candle-photo" src="images/candle-stay-awhile.jpg" alt="Stay Awhile — ribbed pillar candle" loading="lazy" width="230" height="230" />
           </div>
           <h3 data-i18n="c1_name">Stay Awhile</h3>
           <div class="subtitle" data-i18n="c1_sub">Presence · Amber & Fig</div>
@@ -732,18 +761,8 @@
         <!-- 02 -->
         <article class="card reveal" style="transition-delay:.12s">
           <div class="num">02</div>
-          <div class="vessel" aria-hidden="true">
-            <div class="candle-scene">
-              <svg width="86" height="118" viewBox="0 0 86 118">
-                <defs><linearGradient id="wax2" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0" stop-color="#e9d3de"/><stop offset="1" stop-color="#c99bb4"/></linearGradient></defs>
-                <ellipse cx="43" cy="112" rx="30" ry="5" fill="rgba(0,0,0,.14)"/>
-                <rect x="18" y="46" width="50" height="66" rx="25" fill="url(#wax2)" stroke="rgba(0,0,0,.08)"/>
-                <ellipse cx="43" cy="48" rx="25" ry="6" fill="rgba(255,255,255,.4)"/>
-                <rect x="41.2" y="28" width="3.6" height="20" rx="1.5" fill="#4a3524"/>
-              </svg>
-              <div class="flame" style="width:12px;height:26px;top:6px;"></div>
-            </div>
+          <div class="vessel">
+            <img class="candle-photo" src="images/candle-light-returns.jpg" alt="Light Returns — arch candle with two flames" loading="lazy" width="230" height="230" />
           </div>
           <h3 data-i18n="c2_name">Light Returns</h3>
           <div class="subtitle" data-i18n="c2_sub">Renewal · Neroli & Dawn</div>
@@ -757,18 +776,8 @@
         <!-- 03 -->
         <article class="card reveal" style="transition-delay:.24s">
           <div class="num">03</div>
-          <div class="vessel" aria-hidden="true">
-            <div class="candle-scene">
-              <svg width="86" height="118" viewBox="0 0 86 118">
-                <defs><linearGradient id="wax3" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0" stop-color="#efe0c4"/><stop offset="1" stop-color="#d8b878"/></linearGradient></defs>
-                <ellipse cx="43" cy="112" rx="30" ry="5" fill="rgba(0,0,0,.14)"/>
-                <path d="M22 58 C22 44 64 44 64 58 L61 112 L25 112 Z" fill="url(#wax3)" stroke="rgba(0,0,0,.08)"/>
-                <ellipse cx="43" cy="52" rx="21" ry="6" fill="rgba(255,255,255,.4)"/>
-                <rect x="41.2" y="32" width="3.6" height="20" rx="1.5" fill="#4a3524"/>
-              </svg>
-              <div class="flame" style="width:12px;height:26px;top:10px;"></div>
-            </div>
+          <div class="vessel">
+            <img class="candle-photo" src="images/candle-the-yes.jpg" alt="The Yes — sculptural knot candle" loading="lazy" width="230" height="230" />
           </div>
           <h3 data-i18n="c3_name">The Yes</h3>
           <div class="subtitle" data-i18n="c3_sub">Beginnings · Rose & Oud</div>
@@ -818,6 +827,21 @@
     </div>
   </section>
 
+  <!-- ============ PACKAGING ============ -->
+  <section class="packaging" id="packaging">
+    <div class="wrap pack-grid">
+      <div class="pack-photo reveal">
+        <img src="images/packaging.jpg" alt="ASADORA packaging — kraft box, tissue wrap and thank-you cards" loading="lazy" />
+      </div>
+      <div class="pack-copy reveal" style="transition-delay:.12s">
+        <div class="eyebrow" data-i18n="pack_eyebrow">Packaging</div>
+        <h2 data-i18n="pack_title">Wrapped to be remembered</h2>
+        <p data-i18n="pack_p1">Every order arrives hand-wrapped in tissue, sealed with a "made with love" mark, and tucked into a recycled kraft box with a note written for the occasion.</p>
+        <p data-i18n="pack_p2">Ready to gift the moment it arrives — nothing to add, nothing to hide.</p>
+      </div>
+    </div>
+  </section>
+
   <!-- ============ SPECIAL ORDERS / EVENTS ============ -->
   <section id="orders">
     <div class="wrap">
@@ -840,6 +864,12 @@
       <p class="events-note reveal" data-i18n="occ_note">Tell us the moment — we will make the light for it.</p>
     </div>
   </section>
+
+  <!-- ============ EVENT PHOTO BAND ============ -->
+  <div class="photo-band reveal">
+    <img src="images/event.jpg" alt="ASADORA candle-making workshop, an evening of candlelight" loading="lazy" />
+    <div class="cap" data-i18n="band_cap">Candlelit workshops & seasonal launches — gather with us.</div>
+  </div>
 
   <!-- ============ CONTACT ============ -->
   <section class="contact" id="contact">
@@ -930,6 +960,10 @@
       craft_wick_k:"Wick", craft_wick_v:"Cotton & Wood", craft_wick_d:"A quiet, steady flame.",
       craft_form_k:"Form", craft_form_v:"Sculptural", craft_form_d:"Each piece hand-shaped.",
       craft_made_k:"Made", craft_made_v:"In Baku", craft_made_d:"Small-batch, by hand.",
+      pack_eyebrow:"Packaging", pack_title:"Wrapped to be remembered",
+      pack_p1:"Every order arrives hand-wrapped in tissue, sealed with a \"made with love\" mark, and tucked into a recycled kraft box with a note written for the occasion.",
+      pack_p2:"Ready to gift the moment it arrives — nothing to add, nothing to hide.",
+      band_cap:"Candlelit workshops & seasonal launches — gather with us.",
       occ_eyebrow:"Special Orders & Events", occ_title:"Light for every occasion",
       occ_sub:"Custom scents, colors, and labels for the moments that deserve their own glow.",
       occ_wed:"Weddings", occ_wed_d:"Favors & aisle light, in your palette.",
@@ -971,6 +1005,10 @@
       craft_wick_k:"Fitil", craft_wick_v:"Pambıq və Taxta", craft_wick_d:"Sakit, sabit alov.",
       craft_form_k:"Forma", craft_form_v:"Heykəl", craft_form_d:"Hər parça əllə formalanır.",
       craft_made_k:"Hazırlanıb", craft_made_v:"Bakıda", craft_made_d:"Kiçik partiya, əllə.",
+      pack_eyebrow:"Qablaşdırma", pack_title:"Xatırlanmaq üçün bükülür",
+      pack_p1:"Hər sifariş əllə kağıza bükülür, \"məhəbbətlə hazırlanıb\" möhürü ilə möhürlənir və münasibətə uyğun qeyd əlavə olunmuş kraft qutuya yerləşdirilir.",
+      pack_p2:"Gəlib çatan an hədiyyəyə hazırdır — əlavə etməyə, gizlətməyə ehtiyac yoxdur.",
+      band_cap:"Şam işığında master-klaslar və mövsümi təqdimatlar — bizə qoşulun.",
       occ_eyebrow:"Xüsusi Sifariş və Tədbirlər", occ_title:"Hər an üçün işıq",
       occ_sub:"Öz parıltısına layiq anlar üçün fərdi ətir, rəng və etiketlər.",
       occ_wed:"Toylar", occ_wed_d:"Xatirə hədiyyələri və işıq, sizin rənglərdə.",
@@ -1012,6 +1050,10 @@
       craft_wick_k:"Фитиль", craft_wick_v:"Хлопок и Дерево", craft_wick_d:"Тихое, ровное пламя.",
       craft_form_k:"Форма", craft_form_v:"Скульптурная", craft_form_d:"Каждая — вручную.",
       craft_made_k:"Сделано", craft_made_v:"В Баку", craft_made_d:"Малыми партиями, вручную.",
+      pack_eyebrow:"Упаковка", pack_title:"Упаковано, чтобы запомнить",
+      pack_p1:"Каждый заказ вручную заворачивается в бумагу, скрепляется печатью «сделано с любовью» и укладывается в крафт-коробку с открыткой, написанной к случаю.",
+      pack_p2:"Готово к подарку с момента получения — ничего не нужно добавлять или прятать.",
+      band_cap:"Мастер-классы при свечах и сезонные запуски — присоединяйтесь.",
       occ_eyebrow:"Спецзаказы и События", occ_title:"Свет для каждого события",
       occ_sub:"Индивидуальные ароматы, цвета и этикетки для моментов, достойных своего света.",
       occ_wed:"Свадьбы", occ_wed_d:"Бонбоньерки и свет — в ваших тонах.",
